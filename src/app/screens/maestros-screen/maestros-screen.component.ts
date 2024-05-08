@@ -2,8 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { FacadeService } from 'src/app/services/facade.service';
 import { MaestroService } from 'src/app/services/maestro.service';
+import { EliminarUserModalComponent } from 'src/app/modals/eliminar-user-modal/eliminar-user-modal.component';
 
 @Component({
   selector: 'app-maestros-screen',
@@ -27,6 +29,7 @@ constructor(
   public facadeService: FacadeService,
   private maestroService:MaestroService,
   private router: Router,
+  public dialog: MatDialog
 ){}
 
 ngOnInit(): void {
@@ -96,8 +99,25 @@ public goEditar(idUser: number){
 }
 
 public delete(idUser: number){
+  const dialogRef = this.dialog.open(EliminarUserModalComponent,{
+    data: {id: idUser, rol: 'maestro'}, //Se pasan valores a través del componente
+    height: '288px',
+    width: '328px',
+  });
 
+  dialogRef.afterClosed().subscribe(result => {
+    if(result.isDelete){
+      console.log("Maestro eliminado");
+      //Recargar página
+      window.location.reload();
+    }else{
+      alert("Maestro no eliminado ");
+      console.log("No se eliminó el Maestro");
+    }
+  });
 }
+
+
 }
 
 //Esto va fuera de la llave que cierra la clase

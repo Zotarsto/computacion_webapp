@@ -30,6 +30,12 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
+import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
+import { NgChartsModule } from 'ng2-charts';
+import { ListaMateriasScreenComponent } from './screens/lista-materias-screen/lista-materias-screen.component';
+import { RegistroMateriasComponent } from './partials/registro-materias/registro-materias.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -43,7 +49,11 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
     HomeScreenComponent,
     AdminScreenComponent,
     AlumnosScreenComponent,
-    MaestrosScreenComponent
+    MaestrosScreenComponent,
+    EliminarUserModalComponent,
+    GraficasScreenComponent,
+    ListaMateriasScreenComponent,
+    RegistroMateriasComponent
   ],
   imports: [
     BrowserModule,
@@ -61,8 +71,9 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
     HttpClientModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatSelectModule
-
+    MatSelectModule,
+    NgChartsModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,88 @@
+<div class="wrapper">
+  <!-- Va a englobar todo el formulario con la cabecera -->
+  <div class="section-registro">
+          <div class="row mt-3 mb-3">
+              <div class="form-group col-12">
+                  <label class="title-user" for="tipo_usuario">Ingresa los datos de la Materia</label>
+              </div>
+          </div>
+          <!-- Campos del formulario -->
+          <!--NRC-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>NRC de Materia</mat-label>
+            <!-- iMPUT tipo numerica -->
+            <input matInput  type="number" [(ngModel)]="materia.nrc" name="id" placeholder="Escribe el NRC de la Materia" pattern="[0-9]*" inputmode="numeric">
+          </mat-form-field>
+
+          <!--Nombre de la materia-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Nombre de la Materia</mat-label>
+            <input matInput [(ngModel)]="materia.nombre" placeholder="Escribe el nombre de la Materia">
+          </mat-form-field>
+
+          <!-- Sección -->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Sección</mat-label>
+            <!-- iMPUT tipo numerica -->
+            <input matInput  type="number" [(ngModel)]="materia.seccion" placeholder="Escribe la sección de la Materia">
+          </mat-form-field>
+
+          <!--Dias-->
+          <div class="select-dias">
+            <div class="row mt-3 mb-3">
+                <div class="form-group col-12">
+                    <label class="title-dias">Selecciona los dias de la Materia</label>
+                </div>
+            </div>
+            <div class="checkbox-group" *ngFor="let dia of dias; let i = index">
+                <mat-checkbox class="checkbox-item opc-sc" name="opsc" (change)="checkboxChange($event)"
+                    value="{{dia.nombre}}" [checked]="revisarSeleccion(dia.nombre)">
+                    <div class="d-checkbox-nombre">{{dia.nombre}}</div>
+                </mat-checkbox>
+            </div>
+          </div>
+
+          <!--Horario-->
+          <!--Hora de Inicio-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Horario de inicio</mat-label>
+            <input [ngxTimepicker]="pickerI" placeholder="Selecciona el horario de Inicio" [(ngModel)]="materia.horaInicio"  name="hora_inicio" matInput>
+            <ngx-material-timepicker #pickerI></ngx-material-timepicker>
+          </mat-form-field>
+
+          <!--Hora de Inicio-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Horario de Fin</mat-label>
+            <input [ngxTimepicker]="pickerF" placeholder="Selecciona el horario de Finalización" [(ngModel)]="materia.horaFin"  name="hora_inicio" matInput>
+            <ngx-material-timepicker #pickerF></ngx-material-timepicker>
+          </mat-form-field>
+
+          <!--Nombre del Salon-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Nombre del Salón</mat-label>
+            <input matInput [(ngModel)]="materia.salon" placeholder="Escribe el nombre del Salón">
+          </mat-form-field>
+
+          <!--Progrma Educativo-->
+          <mat-form-field class="mat-input" appearance="outline">
+            <mat-label>Programa Educativo</mat-label>
+            <mat-select matInput [(ngModel)]="materia.programaEducativo" (selectionChange)="changeSelect($event)">
+            <mat-option *ngFor="let programa of programas" [value]="programa.viewValue">{{programa.viewValue}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+        <!--Botones-->
+          <div class="section-buttons">
+            <button class="btn btn-danger" (click)="regresar()">Cancelar</button>
+            <button *ngIf="!editar" class="btn btn-primary" type="submit" (click)="registrar()">Registrar</button>
+            <button *ngIf="editar" class="btn btn-primary" type="submit" (click)="actualizar()">Actualizar</button>
+          </div>
+
+
+
+
+
+
+  </div>
+</div>
