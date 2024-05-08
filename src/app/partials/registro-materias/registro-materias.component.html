@@ -13,12 +13,17 @@
             <!-- iMPUT tipo numerica -->
             <input matInput  type="number" [(ngModel)]="materia.nrc" name="id" placeholder="Escribe el NRC de la Materia" pattern="[0-9]*" inputmode="numeric">
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.nrc" class="invalid-feedback">{{errors.nrc}}</div>
 
           <!--Nombre de la materia-->
           <mat-form-field class="mat-input" appearance="outline">
             <mat-label>Nombre de la Materia</mat-label>
             <input matInput [(ngModel)]="materia.nombre" placeholder="Escribe el nombre de la Materia">
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.nombre" class="invalid-feedback">{{errors.nombre}}</div>
+
 
           <!-- Sección -->
           <mat-form-field class="mat-input" appearance="outline">
@@ -26,14 +31,18 @@
             <!-- iMPUT tipo numerica -->
             <input matInput  type="number" [(ngModel)]="materia.seccion" placeholder="Escribe la sección de la Materia">
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.seccion" class="invalid-feedback">{{errors.seccion}}</div>
 
-          <!--Dias-->
+
+         <!--Dias de la semana en checkbox -->
           <div class="select-dias">
             <div class="row mt-3 mb-3">
                 <div class="form-group col-12">
-                    <label class="title-dias">Selecciona los dias de la Materia</label>
+                    <label class="title-dias">Selecciona los dias de la materia para que se imparta</label>
                 </div>
             </div>
+            <!--Aqui se despliega el checkbox-->
             <div class="checkbox-group" *ngFor="let dia of dias; let i = index">
                 <mat-checkbox class="checkbox-item opc-sc" name="opsc" (change)="checkboxChange($event)"
                     value="{{dia.nombre}}" [checked]="revisarSeleccion(dia.nombre)">
@@ -41,6 +50,8 @@
                 </mat-checkbox>
             </div>
           </div>
+          <!--Validación-->
+          <div *ngIf="errors.dias_json" class="invalid-feedback">{{ errors.dias_json }}</div>
 
           <!--Horario-->
           <!--Hora de Inicio-->
@@ -49,6 +60,9 @@
             <input [ngxTimepicker]="pickerI" placeholder="Selecciona el horario de Inicio" [(ngModel)]="materia.horaInicio"  name="hora_inicio" matInput>
             <ngx-material-timepicker #pickerI></ngx-material-timepicker>
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.horaInicio" class="invalid-feedback">{{errors.horaInicio}}</div>
+
 
           <!--Hora de Inicio-->
           <mat-form-field class="mat-input" appearance="outline">
@@ -56,21 +70,30 @@
             <input [ngxTimepicker]="pickerF" placeholder="Selecciona el horario de Finalización" [(ngModel)]="materia.horaFin"  name="hora_inicio" matInput>
             <ngx-material-timepicker #pickerF></ngx-material-timepicker>
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.horaFin" class="invalid-feedback">{{errors.horaFin}}</div>
+
 
           <!--Nombre del Salon-->
           <mat-form-field class="mat-input" appearance="outline">
             <mat-label>Nombre del Salón</mat-label>
             <input matInput [(ngModel)]="materia.salon" placeholder="Escribe el nombre del Salón">
           </mat-form-field>
+          <!--Validación-->
+          <div *ngIf="errors.salon" class="invalid-feedback">{{errors.salon}}</div>
+
 
           <!--Progrma Educativo-->
           <mat-form-field class="mat-input" appearance="outline">
             <mat-label>Programa Educativo</mat-label>
-            <mat-select matInput [(ngModel)]="materia.programaEducativo" (selectionChange)="changeSelect($event)">
-            <mat-option *ngFor="let programa of programas" [value]="programa.viewValue">{{programa.viewValue}}</mat-option>
-            </mat-select>
+            <mat-select [(ngModel)]="materia.programa_educativo">
+                <mat-option *ngFor="let programa of programas" [value]="programa.viewValue">
+                  {{programa.viewValue}}
+                </mat-option>
+              </mat-select>
           </mat-form-field>
-
+          <!--Validación-->
+          <div *ngIf="errors.programa_educativo" class="invalid-feedback">{{ errors.programa_educativo }}</div>
 
         <!--Botones-->
           <div class="section-buttons">

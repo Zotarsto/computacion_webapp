@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ValidatorService {
+  isNumber(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor() { }
 
