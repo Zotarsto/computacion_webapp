@@ -90,12 +90,10 @@ export class MateriasService {
     var headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
     return this.http.get<any>(`${environment.url_api}/lista-materias/`, { headers: headers });
   }
-
   //Obtenemos una materia por su ID
   public getMateriaByID(idUser: Number) {
     return this.http.get<any>(`${environment.url_api}/materias/?id=${idUser}`, httpOptions);
   }
-
   //Editar la materia
   public editarMateria(data: any): Observable<any> {
     //Necesitamos asignar el token a la cabecera
@@ -103,7 +101,6 @@ export class MateriasService {
     var headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token });
     return this.http.put<any>(`${environment.url_api}/materias-edit/`, data, { headers: headers });
   }
-
   //Servicio para eliminar una materia
   public eliminarMateria(idUser: Number): Observable<any> {
     var token = this.facadeService.getSessionToken();

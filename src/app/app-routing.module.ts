@@ -19,7 +19,8 @@ const routes: Routes = [
   {path: 'alumnos', component: AlumnosScreenComponent,pathMatch: 'full'},
   {path: 'maestros', component: MaestrosScreenComponent,pathMatch: 'full'},
   {path: 'graficas', component: GraficasScreenComponent,pathMatch: 'full'},
-  {path: 'materias', component: ListaMateriasScreenComponent,pathMatch: 'full'},
+
+  {path: 'lista-materias', component: ListaMateriasScreenComponent,pathMatch: 'full'},
   {path: 'registro-materias', component: RegistroMateriasComponent,pathMatch: 'full'},
   {path: 'registro-materias/:id', component: RegistroMateriasComponent,pathMatch: 'full'},
 ];

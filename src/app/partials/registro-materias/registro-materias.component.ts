@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FacadeService } from 'src/app/services/facade.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ModificarMateriaModalComponent } from 'src/app/modals/modificar-materia-modal/modificar-materia-modal.component';
+
+
 //Para poder usar jquery definir esto
 declare var $: any;
 @Component({
@@ -47,7 +50,30 @@ export class RegistroMateriasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+    //El primer if valida si existe un parámetro en la URL es decir si existe ya una materia
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true; //Ahora el editar es verdadero quiere decir que puede actualizar
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idMateria = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idMateria);
+      //Al iniciar la vista asignamos los datos de la materia
+      this.materiasService.getMateriaByID(this.idMateria).subscribe(
+        (response) => {
+          this.materia = response;
+        },
+        (error) => {
+          alert("No se pudieron obtener los detalles de la materia para editar");
+          console.error("Error al obtener los detalles de la materia: ", error);
+        }
+      );
+      //Si no existe un id de materia entonces se crea una nueva
+    } else {
+      this.materia = this.materiasService.esquemaMateria();
+      //this.materia.rol = this.rol;
+      //this.token = this.facadeService.getSessionToken();
+      //Imprimir datos en consola
+      console.log("MATERIA: ", this.materia);
+    }
   }
 
   //Funcion para registrar
@@ -118,6 +144,33 @@ export class RegistroMateriasComponent implements OnInit {
   }
 
   public actualizar() {
+    const dialogRef = this.dialog.open(ModificarMateriaModalComponent, {
+      data: { id: this.materia.idMateria }, //Se pasan los valores a traves del componente
+      height: '288px',
+      width: '328px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      //Validación con el servicio
+      this.errors = [];
+      this.errors = this.materiasService.validarMateria(this.materia);
+      if (!$.isEmptyObject(this.errors)) {
+        console.log("No paso la validacion");
+        return false;
+      }
+      console.log("Pasó la validación");
+
+      this.materiasService.editarMateria(this.materia).subscribe(
+        (response) => {
+          //alert("Materia editada correctamente");
+          console.log("Materia editada: ", response);
+          //Si se editó, entonces mandar al home
+          this.router.navigate(["home"]);
+        }, (error) => {
+          console.error("Error al editar la materia: ", error);
+          //alert("No se pudo editar la materia");
+        }
+      );
+    });
 
   }
 }
