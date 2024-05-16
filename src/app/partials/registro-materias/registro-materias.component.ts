@@ -69,9 +69,6 @@ export class RegistroMateriasComponent implements OnInit {
       //Si no existe un id de materia entonces se crea una nueva
     } else {
       this.materia = this.materiasService.esquemaMateria();
-      //this.materia.rol = this.rol;
-      //this.token = this.facadeService.getSessionToken();
-      //Imprimir datos en consola
       console.log("MATERIA: ", this.materia);
     }
   }
