@@ -135,5 +135,5 @@ export interface DatosUsuario {
   horaFin: string,
   salon: string,
   programa_educativo: string,
-  dias_json: [],
+  dias_json: string[];
 }

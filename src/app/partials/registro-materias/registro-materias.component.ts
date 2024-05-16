@@ -23,6 +23,7 @@ export class RegistroMateriasComponent implements OnInit {
   //Checkbox
   public valoresCheckbox: any = [];
   public dias_json: any[] = [];
+  public tipo:string = "registra-materias";
 
 
   public programas: any[] = [
@@ -45,7 +46,6 @@ export class RegistroMateriasComponent implements OnInit {
     private router: Router,
     public activatedRoute: ActivatedRoute,
     private materiasService: MateriasService,
-    private facadeService: FacadeService,
     private dialog: MatDialog
   ) {}
 
@@ -73,37 +73,62 @@ export class RegistroMateriasComponent implements OnInit {
     }
   }
 
-  //Funcion para registrar
-  public registrar() {
-    //Validar
-    this.errors = [];
-    //Se manda a llamar al servicio y se asigna a la variable errors para ver si esta vacia
+  public registrar(): void {
     this.errors = this.materiasService.validarMateria(this.materia);
-    if (!$.isEmptyObject(this.errors)) {
-      //Si no esta vacia entonces no se puede registrar
-      return false;
+    if (Object.keys(this.errors).length !== 0) {
+      return;
     }
-    //Convertimos los dia a cadena json
-    this.materia.dias_json = JSON.stringify(this.materia.dias_json);
-    //Si esta vacio entonces se manda a llamar al servicio para registrar la materia
-    console.log("Datos a enviar: ", this.materia);
-    this.materiasService.registrarMateria(this.materia).subscribe(
-      (response) => {
-        alert("Materia registrada correctamente");
-        console.log("Materia registrado: ", response);
-        this.router.navigate(["home"]);
-      }, (error) => {
-        console.log("Error: ", error);
-        alert("No se pudo registrar materia");
-      }
-    )
+
+    this.materia.dias_json = this.materia.dias_json.join(', ');
+
+    if (this.materia.id) {
+      const dialogRef = this.dialog.open(ModificarMateriaModalComponent, {
+        data: { id: this.materia.idMateria }, //Se pasan los valores a traves del componente
+        height: '288px',
+        width: '328px',
+      });
+      //DESPUES DE CERRAR EL MODAL
+      dialogRef.afterClosed().subscribe(result => {
+        //Validación
+        this.errors = [];
+        this.errors = this.materiasService.validarMateria(this.materia);
+        if (!$.isEmptyObject(this.errors)) {
+          console.log("No paso la validacion");
+          return false;
+        }
+        console.log("Pasó la validación");
+
+        this.materiasService.editarMateria(this.materia).subscribe(
+          (response) => {
+            //alert("Materia editada correctamente");
+            console.log("Materia editada: ", response);
+            //Si se editó, entonces mandar al home
+            this.router.navigate(["home"]);
+          }, (error) => {
+            console.error("Error al editar la materia: ", error);
+            //alert("No se pudo editar la materia");
+          }
+        );
+      });
+    } else {
+      this.materiasService.registrarMateria(this.materia).subscribe(
+        (response) => {
+          alert("Materia registrada correctamente");
+          console.log("Materia registrada: ", response);
+          this.router.navigate(["home"]);
+        },
+        (error) => {
+          alert("No se pudo registrar la materia");
+          console.error("Error al registrar la materia: ", error);
+        }
+      );
+    }
   }
 
   //Regresar a la pagina anterior
   public regresar() {
     this.location.back();
   }
-
 
   public checkboxChange(event: any) {
     if (!this.materia.dias_json) {

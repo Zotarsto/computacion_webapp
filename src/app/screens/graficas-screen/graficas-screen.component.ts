@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
-import { Chart} from 'chart.js';
 import { AdministradorService } from 'src/app/services/administrador.service';
 
 @Component({
@@ -22,19 +21,22 @@ export class GraficasScreenComponent implements OnInit{
   ngOnInit(): void {
     //Se consume la funcion getTotalUsuarios para que podamos saber cuantos usuarios se tienen desde la API
     this.administradoresServices.getTotalUsuarios().subscribe(
-      (response) => {//Si todo sale bien, entra al response
+      //Si todo sale bien, entra al response
+      (response) => {
         const { admins, maestros, alumnos } = response;
-        console.log("Admins:", admins, "Maestros:", maestros, "Alumnos:", alumnos); // Verifica los valores recibidos
+        // Verifica los valores recibidos
+        console.log("Admins:", admins, "Maestros:", maestros, "Alumnos:", alumnos);
         this.result = [admins, maestros, alumnos];
         this.data = this.result.map(value => Number(value));
         console.log("Total usuarios: ", this.data);
-
         //Grafica de Histograma
         this.lineChartData = {
-          labels: ["Administradores", "Maestros", "Alumnos"],//Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          //Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          labels: ["Administradores", "Maestros", "Alumnos"],
           datasets: [
             {
-              data: this.data,//Se pasa la informacion de los usuarios registrados de manera dinamica
+              //Se pasa la informacion de los usuarios registrados de manera dinamica
+              data: this.data,
               label: 'Registro de usuarios',
               backgroundColor: '#F88406'
             }
@@ -43,10 +45,11 @@ export class GraficasScreenComponent implements OnInit{
 
         //Grafica de Barras
         this.barChartData = {
-          labels: ["Administradores", "Maestros", "Alumnos"],//Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          //Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          labels: ["Administradores", "Maestros", "Alumnos"],
           datasets: [
-            {
-              data: this.data,//Se pasa la informacion de los usuarios registrados de manera dinamica
+            {//Se pasa la informacion de los usuarios registrados de manera dinamica
+              data: this.data,
               label: 'Registro de usuarios',
               backgroundColor: [
                 '#F88406',
@@ -60,10 +63,11 @@ export class GraficasScreenComponent implements OnInit{
         };
         //Grafica circular
         this.pieChartData = {
-          labels: ["Administradores", "Maestros", "Alumnos"],//Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          //Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          labels: ["Administradores", "Maestros", "Alumnos"],
           datasets: [
-            {
-              data: this.data,//Se pasa la informacion de los usuarios registrados de manera dinamica
+            {//Se pasa la informacion de los usuarios registrados de manera dinamica
+              data: this.data,
               backgroundColor: [
                 '#FCFF44',
                 '#F1C8F2',
@@ -74,10 +78,11 @@ export class GraficasScreenComponent implements OnInit{
         };
         // Doughnut
         this.doughnutChartData = {
-          labels: ["Administradores", "Maestros", "Alumnos"],//Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
+          labels: ["Administradores", "Maestros", "Alumnos"],
+          //Se incorporan el tipo de usuario, conforme se devuelve el response desde la API
           datasets: [
-            {
-              data: this.data,//Se pasa la informacion de los usuarios registrados de manera dinamica,
+            {//Se pasa la informacion de los usuarios registrados de manera dinamica,
+              data: this.data,
               backgroundColor: [
                 '#F88406',
                 '#FCFF44',
